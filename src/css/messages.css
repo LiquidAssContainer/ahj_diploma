@@ -41,6 +41,7 @@
   display: inline-block;
   position: relative;
   max-width: 100%;
+  cursor: pointer;
 }
 
 .download_btn {

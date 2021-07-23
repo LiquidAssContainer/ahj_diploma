@@ -20,7 +20,7 @@ export class MessageListRender {
     switch (type) {
       case 'image':
         wrapper.innerHTML = `
-          <img class="image" src="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}">`;
+          <img class="image" data-filename="${filename}" src="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}">`;
         break;
 
       case 'video':

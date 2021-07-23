@@ -1,0 +1,29 @@
+.modal {
+  position: absolute;
+  background-color: #000000a3;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modal_image {
+  max-height: 90%;
+  max-width: 90%;
+}
+
+.modal .download_btn {
+  margin-top: 20px;
+  width: 30px;
+  height: 30px;
+  background-size: 30px;
+}
+
+.close-modal_btn {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  color: #fff;
+  font-size: 50px;
+}

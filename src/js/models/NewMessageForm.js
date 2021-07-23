@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid';
+
 import { apiService as api } from './Api';
 import { EmojiPanel } from './panels/EmojiPanel';
 import { StickerPanel } from './panels/StickerPanel';
@@ -6,7 +8,7 @@ import { UploadPanel } from './panels/UploadPanel';
 export class NewMessageForm {
   constructor(organizer) {
     this.organizer = organizer;
-    this.files = [];
+    this.files = new Map();
 
     this.form = document.getElementById('form');
     this.textarea = document.getElementById('textarea');
@@ -27,10 +29,8 @@ export class NewMessageForm {
       formData.append(key, data[key]);
     }
 
-    if (this.files) {
-      for (const file of this.files) {
-        formData.append('files', file);
-      }
+    for (const file of this.files) {
+      formData.append('files', file[1]);
     }
 
     let message;
@@ -49,38 +49,35 @@ export class NewMessageForm {
   clearForm() {
     this.textarea.value = '';
     this.previewContainer.innerHTML = '';
-    this.files = [];
+    this.files = new Map([]);
   }
 
-  addPreviews(files) {
-    files.forEach((file, index) => {
-      const [type] = file.type.split('/');
-      const previewElem = document.createElement('div');
-      previewElem.className = `preview ${type}-preview`;
-      // let innerHTML = '';
+  addPreview(file, id) {
+    const [type] = file.type.split('/');
+    const previewElem = document.createElement('div');
+    previewElem.className = `preview ${type}-preview`;
 
-      const src = URL.createObjectURL(file);
-      switch (type) {
-        case 'image':
-          previewElem.innerHTML = `<img src=${src}>`;
-          break;
-        case 'video':
-          previewElem.innerHTML = `<video src=${src}>`;
-          break;
-        case 'audio':
-          previewElem.textContent = file.name;
-      }
+    const src = URL.createObjectURL(file);
+    switch (type) {
+      case 'image':
+        previewElem.innerHTML = `<img src=${src}>`;
+        break;
+      case 'video':
+        previewElem.innerHTML = `<video src=${src}>`;
+        break;
+      case 'audio':
+        previewElem.textContent = file.name;
+    }
 
-      const removeButtonHTML = `
+    const removeButtonHTML = `
         <button
           class="file_remove-btn"
-          data-index="${this.files.length + index}">
+          data-id="${id}">
           ×
         </button>`;
 
-      previewElem.insertAdjacentHTML('beforeend', removeButtonHTML);
-      this.previewContainer.insertAdjacentElement('beforeend', previewElem);
-    });
+    previewElem.insertAdjacentHTML('beforeend', removeButtonHTML);
+    this.previewContainer.insertAdjacentElement('beforeend', previewElem);
   }
 
   onSubmit() {
@@ -89,7 +86,7 @@ export class NewMessageForm {
         type: 'text',
         content: this.textarea.value,
       });
-    } else if (this.files.length > 0) {
+    } else if (this.files.size > 0) {
       this.sendMessage({
         type: 'files',
       });
@@ -114,9 +111,26 @@ export class NewMessageForm {
     this.textarea.focus();
   }
 
+  isFileValid(file) {
+    const allowedExtensions = {
+      image: ['jpeg', 'png', 'gif'],
+      video: ['mp4', 'quicktime', 'webm'],
+      audio: ['mpeg', 'flac'],
+    };
+    const [type, extension] = file.type.split('/');
+    return (
+      !!allowedExtensions[type] && allowedExtensions[type].includes(extension)
+    );
+  }
+
   uploadFiles(files) {
-    this.addPreviews(files);
-    this.files = this.files.concat(files);
+    for (const file of files) {
+      if (this.isFileValid(file)) {
+        const id = nanoid();
+        this.addPreview(file, id);
+        this.files.set(id, file);
+      }
+    }
   }
 
   registerEvents() {
@@ -157,8 +171,8 @@ export class NewMessageForm {
 
     this.previewContainer.addEventListener('click', ({ target }) => {
       if (target.classList.contains('file_remove-btn')) {
-        const { index } = target.dataset;
-        this.files.splice(index, 1);
+        const { id } = target.dataset;
+        this.files.delete(id);
         const previewElem = target.closest('.preview');
         previewElem.remove();
       }

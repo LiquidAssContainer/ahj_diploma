@@ -2,6 +2,7 @@
 @import url('./toolbar.css');
 @import url('./messages.css');
 @import url('./new-message-form.css');
+@import url('./modal.css');
 
 .hidden {
   display: none;

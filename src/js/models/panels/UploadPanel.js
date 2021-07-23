@@ -8,7 +8,6 @@ export class UploadPanel extends SelectPanel {
   onFilesUpload(files) {
     const filesArr = [...files];
     this.messageForm.uploadFiles(filesArr);
-    // e.target.value = '';
   }
 
   registerEvents() {
