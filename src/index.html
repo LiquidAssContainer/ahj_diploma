@@ -5,10 +5,98 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AHJ Diploma</title>
+  <title>Chaos Organizer</title>
 </head>
 
 <body>
+  <header class="header">
+    <h1 class="title">Chaos Organizer</h1>
+  </header>
+
+  <section class="toolbar_section" id="toolbar">
+    <div class="toolbar">
+      <div class="search">
+        <input type="text" class="search-message" id="search" placeholder="Search" autocomplete="off"
+          spellcheck="false">
+        <button class="erase-search hidden" id="erase-search">×</button>
+      </div>
+      <div class="categories_container">
+        <ul class="category_list">
+          <li class="category_item">
+            <a class="category_button active" data-category="messages">All</a>
+          </li>
+          <li class="category_item">
+            <a class="category_button" data-category="favorites">Favorite</a>
+          </li>
+          <li class="category_item">
+            <a class="category_button" data-category="images">Images</a>
+          </li>
+          <li class="category_item">
+            <a class="category_button" data-category="video">Video</a>
+          </li>
+          <li class="category_item">
+            <a class="category_button" data-category="audio">Audio</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="messages_section">
+    <div class="messages_container">
+      <ul class="message_list" id="messages"></ul>
+    </div>
+  </section>
+
+  <section class="new-message_section">
+    <div class="new-message_form_wrapper">
+      <form action="" class="new-message_form" id="form">
+        <textarea type="text" class="message_textarea" id="textarea" placeholder="Type here..."></textarea>
+        <!-- <div class="message_textarea" id="textarea" contenteditable="true">Писать сюда</div> -->
+        <div class="form_btns_container">
+          <div class="upload-files_select">
+            <button class="form_btn upload-files_btn"></button>
+            <div class="upload-files_list_container panel hidden">
+              <ul class="upload-files_list">
+                <label class="file-input_label">
+                  <span>Image</span>
+                  <input class="file-input" id="image-input" type="file" accept="image/jpeg, image/png, image/gif"
+                    multiple>
+                </label>
+                <label class="file-input_label">
+                  <span>Video</span>
+                  <input class="file-input" id="video-input" type="file" accept="video/mp4, video/quicktime, video/webm"
+                    multiple>
+                </label>
+                <label class="file-input_label">
+                  <span>Audio</span>
+                  <input class="file-input" id="audio-input" type="file" accept="audio/mpeg, audio/flac" multiple>
+                </label>
+              </ul>
+            </div>
+          </div>
+          <div class="emoji_select">
+            <button class="form_btn emoji_btn"></button>
+            <div class="emoji_list_container panel hidden">
+              <ul class="emoji_list"></ul>
+            </div>
+          </div>
+          <div class="stickers_select">
+            <button class="form_btn stickerpack_btn"></button>
+            <div class="stickerpack_list_container panel hidden">
+              <div class="stickerpack_list"></div>
+              <div class="stickerpack_tabs"></div>
+            </div>
+          </div>
+          <button class="form_btn send-message_btn" type="submit"></button>
+        </div>
+        <div class="drag-n-drop hidden" id="drag-n-drop">
+          Drop files here
+        </div>
+      </form>
+      <div id="preview-container"></div>
+    </div>
+  </section>
 
 </body>
 

@@ -9,6 +9,18 @@
   "rules": {
     "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "max-len": ["error", 80]
+    "implicit-arrow-linebreak": ["off"],
+    "function-paren-newline": ["off"],
+    "import/prefer-default-export": ["off"],
+    "no-param-reassign": ["off"],
+    "class-methods-use-this": ["off"],
+    "no-continue": ["off"],
+    "default-case": ["off"],
+    "guard-for-in": ["off"],
+    "operator-linebreak": ["off"],
+    "": ["off"],
+    "": ["off"],
+    "": ["off"],
+    "": ["off"]
   }
 }
