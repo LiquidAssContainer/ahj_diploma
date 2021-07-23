@@ -17,10 +17,6 @@
     "no-continue": ["off"],
     "default-case": ["off"],
     "guard-for-in": ["off"],
-    "operator-linebreak": ["off"],
-    "": ["off"],
-    "": ["off"],
-    "": ["off"],
-    "": ["off"]
+    "operator-linebreak": ["off"]
   }
 }
