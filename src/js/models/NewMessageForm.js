@@ -48,8 +48,8 @@ export class NewMessageForm {
 
   clearForm() {
     this.textarea.value = '';
-    // this.previewContainer.innerHTML = '';
-    // this.files = [];
+    this.previewContainer.innerHTML = '';
+    this.files = [];
   }
 
   addPreviews(files) {
@@ -84,17 +84,17 @@ export class NewMessageForm {
   }
 
   onSubmit() {
-    if (this.textarea.value !== '') {
+    if (this.textarea.value.trim() !== '') {
       this.sendMessage({
         type: 'text',
         content: this.textarea.value,
       });
-      this.clearForm();
     } else if (this.files.length > 0) {
       this.sendMessage({
         type: 'files',
       });
     }
+    this.clearForm();
   }
 
   insertEmoji(emoji) {
