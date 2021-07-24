@@ -136,6 +136,10 @@ export class MessageList {
     });
 
     document.addEventListener('click', ({ target }) => {
+      if (target.classList.contains('download_btn')) {
+        return;
+      }
+
       const mediaImage = target.closest('.media_image');
       if (mediaImage) {
         const img = mediaImage.firstElementChild;
