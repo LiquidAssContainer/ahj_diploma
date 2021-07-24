@@ -1,4 +1,9 @@
-import { handleLinksInString, handleEmojiInString, formatDate } from '../utils';
+import {
+  handleLinksInString,
+  handleEmojiInString,
+  formatDate,
+  handleCodeInString,
+} from '../utils';
 
 export class MessageListRender {
   getDownloadBtnHTML({ filename, src }) {
@@ -74,7 +79,9 @@ export class MessageListRender {
     const attachmentsHTML = this.getAttachmentsHTML(attachments);
 
     let textContent = handleLinksInString(content);
+    textContent = handleCodeInString(textContent);
     textContent = handleEmojiInString(textContent);
+    textContent = textContent.replaceAll(/\n/g, '<br>');
 
     return `
      <div class="message_text">
@@ -102,7 +109,8 @@ export class MessageListRender {
   getMessageHTML(message) {
     const {
       type, content, date, id, isFavorite, editDate, attachments,
-    } = message;
+    } =
+      message;
 
     let contentHTML;
     switch (type) {

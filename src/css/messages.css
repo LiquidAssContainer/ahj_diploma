@@ -130,6 +130,17 @@
   text-decoration: underline;
 }
 
+pre {
+  background-color: #d9d9d9;
+  line-height: 1.1;
+  overflow-x: auto;
+}
+
+code {
+  background-color: #d9d9d9;
+  font-family: monospace;
+}
+
 .message_sticker {
   max-width: 200px;
 }

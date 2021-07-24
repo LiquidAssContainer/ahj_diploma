@@ -1,4 +1,6 @@
+import hljs from 'highlight.js';
 import { emojis } from './constants';
+import 'highlight.js/styles/github.css';
 
 export function formatDate(dateString) {
   const twoDigits = (number) => (number > 9 ? number : `0${number}`);
@@ -35,4 +37,16 @@ export function handleLinksInString(str) {
         match,
       )}</a>`,
   );
+}
+
+export function handleCodeInString(str) {
+  const getHighlighted = (code) =>
+    `<code>${hljs.highlightAuto(code).value}</code>`;
+
+  return str
+    .replaceAll(/```\n*(.+?)\n*```/gs, (_, code) => {
+      const highlighted = `<pre>${getHighlighted(code)}</pre>`;
+      return highlighted.replaceAll('`', '&#96;');
+    })
+    .replaceAll(/`[\s\n]*(.+?)[\s\n]*`/gs, (_, code) => getHighlighted(code));
 }
