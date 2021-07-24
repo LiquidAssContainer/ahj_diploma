@@ -5,12 +5,12 @@ import {
   handleCodeInString,
 } from '../../utils';
 
-export class MessageListRender {
-  getDownloadBtnHTML({ filename, src }) {
+export class MessageListMarkup {
+  static getDownloadBtnHTML({ filename, src }) {
     return `<a class="download_btn" download="${filename}" href="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}"></a>`;
   }
 
-  getFileHTML(file, fileType) {
+  static getFileHTML(file, fileType) {
     const { filename, src } = file;
     let type = fileType;
     if (type === 'images') {
@@ -47,7 +47,7 @@ export class MessageListRender {
     return wrapper.outerHTML;
   }
 
-  getAttachmentsHTML(attachments) {
+  static getAttachmentsHTML(attachments) {
     if (!attachments) {
       return '';
     }
@@ -65,13 +65,13 @@ export class MessageListRender {
     return html;
   }
 
-  getStickerContentHTML({ src }) {
+  static getStickerContentHTML({ src }) {
     return `
       <img class="message_sticker" src="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}">
     `;
   }
 
-  getTextContentHTML(content, attachments) {
+  static getTextContentHTML(content, attachments) {
     const attachmentsHTML = this.getAttachmentsHTML(attachments);
 
     let textContent = handleLinksInString(content);
@@ -84,7 +84,7 @@ export class MessageListRender {
      <div class="message_attachments">${attachmentsHTML}</div>`;
   }
 
-  getMediaHTML(files, type) {
+  static getMediaHTML(files, type) {
     let html = '';
     for (const file of files) {
       html += this.getFileHTML(file, type, 'media');
@@ -92,7 +92,7 @@ export class MessageListRender {
     return html;
   }
 
-  getMessagesHTML(messages) {
+  static getMessagesHTML(messages) {
     let messagesHTML = '';
     for (const msg of messages) {
       messagesHTML += this.getMessageHTML(msg);
@@ -100,7 +100,7 @@ export class MessageListRender {
     return messagesHTML;
   }
 
-  getFavoriteBtnHTML(isFavorite) {
+  static getFavoriteBtnHTML(isFavorite) {
     return `<button class="message_btn add-to-favorite_button${
       isFavorite ? ' favorite' : ''
     }">
@@ -110,7 +110,7 @@ export class MessageListRender {
     </button>`;
   }
 
-  getMessageHTML(message) {
+  static getMessageHTML(message) {
     const {
       type, content, date, id, isFavorite, editDate, attachments,
     } =

@@ -1,5 +1,5 @@
 import { apiService as api } from '../Api';
-import { MessageListRender } from './MessageListRender';
+import { MessageListMarkup as Markup } from './MessageListMarkup';
 
 export class MessageList {
   constructor(organizer) {
@@ -8,7 +8,6 @@ export class MessageList {
     this.messageList = document.getElementById('messages');
     [this.container] = document.getElementsByClassName('messages_container');
     this.modal = document.getElementById('modal');
-    this.render = new MessageListRender();
 
     this.registerEvents();
   }
@@ -44,19 +43,19 @@ export class MessageList {
   }
 
   renderNewMessage(message) {
-    const messageHTML = this.render.getMessageHTML(message);
+    const messageHTML = Markup.getMessageHTML(message);
     this.messageList.insertAdjacentHTML('beforeend', messageHTML);
     this.scrollToBottom(100);
   }
 
   renderMessages(messages) {
-    this.messageList.innerHTML = this.render.getMessagesHTML(messages);
+    this.messageList.innerHTML = Markup.getMessagesHTML(messages);
   }
 
   renderMedia(files, type) {
     const container = document.createElement('div');
     container.className = `${type}_container`;
-    container.innerHTML = this.render.getMediaHTML(files, type);
+    container.innerHTML = Markup.getMediaHTML(files, type);
     this.messageList.insertAdjacentElement('afterbegin', container);
   }
 
@@ -90,10 +89,10 @@ export class MessageList {
   renderPreviousInstances(instances) {
     let html;
     if (['messages', 'favorites'].includes(this.activeCategory)) {
-      html = this.render.getMessagesHTML(instances);
+      html = Markup.getMessagesHTML(instances);
       this.messageList.insertAdjacentHTML('afterbegin', html);
     } else {
-      html = this.render.getMediaHTML(instances, this.activeCategory);
+      html = Markup.getMediaHTML(instances, this.activeCategory);
       const mediaContainer = this.messageList.firstChild;
       mediaContainer.insertAdjacentHTML('afterbegin', html);
     }
