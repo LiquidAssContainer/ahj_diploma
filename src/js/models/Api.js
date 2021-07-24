@@ -1,5 +1,5 @@
 export class apiService {
-  static baseUrl = 'http://localhost:7070';
+  static baseUrl = 'https://ahj-diploma-chaos-organizer.herokuapp.com';
 
   static username = 'test';
 

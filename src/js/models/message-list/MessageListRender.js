@@ -7,7 +7,7 @@ import {
 
 export class MessageListRender {
   getDownloadBtnHTML({ filename, src }) {
-    return `<a class="download_btn" download="${filename}" href="http://localhost:7070/${src}"></a>`;
+    return `<a class="download_btn" download="${filename}" href="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}"></a>`;
   }
 
   getFileHTML(file, fileType) {
@@ -23,14 +23,14 @@ export class MessageListRender {
     switch (type) {
       case 'image':
         wrapper.innerHTML = `
-          <img class="image" data-filename="${filename}" src="http://localhost:7070/${src}">`;
+          <img class="image" data-filename="${filename}" src="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}">`;
         break;
 
       case 'video':
         wrapper.innerHTML = `
           <div class="video_wrapper">
             <video class="video" controls>
-              <source src="http://localhost:7070/${src}">
+              <source src="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}">
             </video>
           </div>`;
         break;
@@ -39,7 +39,7 @@ export class MessageListRender {
         wrapper.innerHTML = `
           <div class="audio_title">${filename}</div>
           <audio class="audio" controls>
-            <source src="http://localhost:7070/${src}">
+            <source src="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}">
           </audio>`;
     }
     const downloadBtn = this.getDownloadBtnHTML(file, fileType);
@@ -67,7 +67,7 @@ export class MessageListRender {
 
   getStickerContentHTML({ src }) {
     return `
-      <img class="message_sticker" src="http://localhost:7070/${src}">
+      <img class="message_sticker" src="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}">
     `;
   }
 
