@@ -143,7 +143,8 @@ export class MessageList {
       const mediaImage = target.closest('.media_image');
       if (mediaImage) {
         const img = mediaImage.firstElementChild;
-        const { src, dataset: filename } = img;
+        const { src } = img;
+        const { filename } = img.dataset;
         this.openImageModal({ src, filename });
       }
     });
