@@ -55,13 +55,6 @@ export class apiService {
     });
   }
 
-  static sendSticker(formData) {
-    return this.request(`${this.username}/messages`, {
-      method: 'POST',
-      body: formData,
-    });
-  }
-
   static getStickers() {
     return this.request('stickers');
   }

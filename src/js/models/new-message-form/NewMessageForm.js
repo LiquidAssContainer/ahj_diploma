@@ -28,19 +28,10 @@ export class NewMessageForm {
     for (const key in data) {
       formData.append(key, data[key]);
     }
-
     for (const file of this.files) {
       formData.append('files', file[1]);
     }
-
-    let message;
-    switch (data.type) {
-      case 'sticker':
-        message = await api.sendSticker(formData);
-        break;
-      default:
-        message = await api.sendMessage(formData);
-    }
+    const message = await api.sendMessage(formData);
     this.messages.renderNewMessage(message);
   }
 
