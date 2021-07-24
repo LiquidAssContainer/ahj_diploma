@@ -11,18 +11,6 @@ export class ChaosOrganizer {
     this.messages.getRecentInstances('messages');
   }
 
-  // getRecentMessages(category) {
-  //   this.messages.getRecentInstances(category);
-  // }
-
-  // renderNewMessage(message) {
-  //   this.messages.renderNewMessage(message);
-  // }
-
-  // performSearch(value) {
-  //   this.messages.performSearch(value);
-  // }
-
   async switchCategory(category) {
     this.messages.getRecentInstances(category);
 
