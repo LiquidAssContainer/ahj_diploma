@@ -1,21 +1,22 @@
 export class Toolbar {
   constructor(organizer) {
     this.organizer = organizer;
+    this.messages = organizer.messages;
+
     this.search = document.getElementById('search');
     this.eraseSearch = document.getElementById('erase-search');
     this.toolbar = document.getElementById('toolbar');
-
     this.activeCategory = 'messages';
+
     this.registerEvents();
   }
 
   onSearch(value) {
-    // const { value } = target;
     if (value) {
-      this.organizer.performSearch(value);
+      this.messages.performSearch(value);
       this.eraseSearch.classList.remove('hidden');
     } else {
-      this.organizer.getRecentMessages(this.activeCategory);
+      this.messages.getRecentInstances(this.activeCategory);
       this.eraseSearch.classList.add('hidden');
     }
   }
@@ -29,10 +30,6 @@ export class Toolbar {
     if (target.classList.contains('category_button')) {
       const { category } = target.dataset;
       this.search.value = '';
-
-      // if (this.activeCategory === category) {
-      //   return;
-      // }
 
       const [prevActive] = this.toolbar.getElementsByClassName('active');
       prevActive.classList.remove('active');

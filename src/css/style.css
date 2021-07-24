@@ -3,6 +3,7 @@
 @import url('./messages.css');
 @import url('./new-message-form.css');
 @import url('./modal.css');
+@import url('highlight.js/styles/github.css');
 
 .hidden {
   display: none;

@@ -1,9 +1,10 @@
-import { apiService as api } from './Api';
+import { apiService as api } from '../Api';
 import { MessageListRender } from './MessageListRender';
 
 export class MessageList {
   constructor(organizer) {
     this.organizer = organizer;
+
     this.messageList = document.getElementById('messages');
     [this.container] = document.getElementsByClassName('messages_container');
     this.modal = document.getElementById('modal');
@@ -39,13 +40,13 @@ export class MessageList {
       this.lastMessageId = recentMessages[0].id;
       this.renderMessages(recentMessages);
     }
-    this.scrollToBottom();
+    this.scrollToBottom(350);
   }
 
   renderNewMessage(message) {
     const messageHTML = this.render.getMessageHTML(message);
     this.messageList.insertAdjacentHTML('beforeend', messageHTML);
-    this.scrollToBottom();
+    this.scrollToBottom(100);
   }
 
   renderMessages(messages) {
@@ -70,10 +71,11 @@ export class MessageList {
     }
   }
 
-  scrollToBottom() {
+  scrollToBottom(delay = 0) {
+    // конечно же, при загрузке множества изображений это не спасает
     setTimeout(() => {
       this.container.scrollTop = this.container.scrollHeight;
-    }, 100);
+    }, delay);
   }
 
   async getInstancesBefore(lastId, type = 'messages') {
@@ -101,10 +103,12 @@ export class MessageList {
     if (!this.lastMessageId || !this.activeCategory) {
       return;
     }
+
     const response = await this.getInstancesBefore(
       this.lastMessageId,
       this.activeCategory,
     );
+
     const instances = response.messages || response;
     if (instances.length > 0) {
       this.lastMessageId = instances[0].id;
@@ -125,8 +129,8 @@ export class MessageList {
   registerEvents() {
     this.modal.addEventListener('click', ({ target }) => {
       if (
-        target.classList.contains('close-modal_btn')
-        || target === this.modal
+        target.classList.contains('close-modal_btn') ||
+        target === this.modal
       ) {
         this.modal.classList.add('hidden');
       }
@@ -136,8 +140,7 @@ export class MessageList {
       const mediaImage = target.closest('.media_image');
       if (mediaImage) {
         const img = mediaImage.firstElementChild;
-        const { src } = img;
-        const { filename } = img.dataset;
+        const { src, dataset: filename } = img;
         this.openImageModal({ src, filename });
       }
     });
@@ -160,13 +163,6 @@ export class MessageList {
         } else {
           await api.addToFavorites(id);
           favoriteBtn.classList.add('favorite');
-        }
-      }
-
-      if (target.closest('.message_pinned')) {
-        if (target.classList.contains('unpin-message_btn')) {
-          await api.unpinMessage();
-          target.closest('.message_pinned').remove();
         }
       }
     });

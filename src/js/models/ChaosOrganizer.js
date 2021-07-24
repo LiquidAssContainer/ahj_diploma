@@ -1,30 +1,30 @@
 import { Toolbar } from './Toolbar';
-import { MessageList } from './MessageList';
-import { NewMessageForm } from './NewMessageForm';
+import { MessageList } from './message-list/MessageList';
+import { NewMessageForm } from './new-message-form/NewMessageForm';
 
 export class ChaosOrganizer {
   init() {
-    this.toolbar = new Toolbar(this);
     this.messages = new MessageList(this);
+    this.toolbar = new Toolbar(this);
     this.form = new NewMessageForm(this);
 
-    this.getRecentMessages('messages');
+    this.messages.getRecentInstances('messages');
   }
 
-  getRecentMessages(category) {
-    this.messages.getRecentInstances(category);
-  }
+  // getRecentMessages(category) {
+  //   this.messages.getRecentInstances(category);
+  // }
 
-  renderMessage(message) {
-    this.messages.renderNewMessage(message);
-  }
+  // renderNewMessage(message) {
+  //   this.messages.renderNewMessage(message);
+  // }
 
-  performSearch(value) {
-    this.messages.performSearch(value);
-  }
+  // performSearch(value) {
+  //   this.messages.performSearch(value);
+  // }
 
   async switchCategory(category) {
-    this.getRecentMessages(category);
+    this.messages.getRecentInstances(category);
 
     const [newMessageSection] = document.getElementsByClassName(
       'new-message_section',
@@ -35,11 +35,4 @@ export class ChaosOrganizer {
       newMessageSection.classList.remove('hidden');
     }
   }
-
-  // async getPinnedMessage() {
-  //   const message = await api.getPinnedMessage();
-  //   if (message) {
-  //     this.messages.renderPinnedMessage(message);
-  //   }
-  // }
 }

@@ -1,25 +1,24 @@
-import { emojis } from '../../constants';
+import { emojis } from '../../../constants';
 import { SelectPanel } from './SelectPanel';
 
 export class EmojiPanel extends SelectPanel {
   constructor(messageForm) {
     super(messageForm, 'emoji');
-
     this.renderPanel();
   }
 
   renderPanel() {
-    let HTML = '';
+    let html = '';
     for (const emoji of emojis) {
-      HTML += `
+      html += `
       <li class="emoji_item">
         <img
           class="emoji_item_img"
           alt="${emoji.char}"
-          src="https://ahj-diploma-chaos-organizer.herokuapp.com/emoji/${emoji.src}">
+          src="http://localhost:7070/emoji/${emoji.src}">
       </li>`;
     }
-    this.list.innerHTML = HTML;
+    this.list.innerHTML = html;
   }
 
   registerEvents() {

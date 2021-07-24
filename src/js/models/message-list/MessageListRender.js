@@ -3,12 +3,11 @@ import {
   handleEmojiInString,
   formatDate,
   handleCodeInString,
-} from '../utils';
+} from '../../utils';
 
 export class MessageListRender {
   getDownloadBtnHTML({ filename, src }) {
-    // const src = file.src || file;
-    return `<a class="download_btn" download="${filename}" href="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}"></a>`;
+    return `<a class="download_btn" download="${filename}" href="http://localhost:7070/${src}"></a>`;
   }
 
   getFileHTML(file, fileType) {
@@ -20,19 +19,18 @@ export class MessageListRender {
 
     const wrapper = document.createElement('div');
     wrapper.className = `media_${type}`;
-    // type = type === 'images' ? 'image' : type
 
     switch (type) {
       case 'image':
         wrapper.innerHTML = `
-          <img class="image" data-filename="${filename}" src="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}">`;
+          <img class="image" data-filename="${filename}" src="http://localhost:7070/${src}">`;
         break;
 
       case 'video':
         wrapper.innerHTML = `
           <div class="video_wrapper">
             <video class="video" controls>
-              <source src="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}">
+              <source src="http://localhost:7070/${src}">
             </video>
           </div>`;
         break;
@@ -41,7 +39,7 @@ export class MessageListRender {
         wrapper.innerHTML = `
           <div class="audio_title">${filename}</div>
           <audio class="audio" controls>
-            <source src="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}">
+            <source src="http://localhost:7070/${src}">
           </audio>`;
     }
     const downloadBtn = this.getDownloadBtnHTML(file, fileType);
@@ -67,11 +65,9 @@ export class MessageListRender {
     return html;
   }
 
-  getStickerContentHTML(content) {
-    // const { pack, id } = content;
-    const { src } = content;
+  getStickerContentHTML({ src }) {
     return `
-      <img class="message_sticker" src="https://ahj-diploma-chaos-organizer.herokuapp.com/${src}">
+      <img class="message_sticker" src="http://localhost:7070/${src}">
     `;
   }
 
@@ -84,9 +80,7 @@ export class MessageListRender {
     textContent = textContent.replaceAll(/\n/g, '<br>');
 
     return `
-     <div class="message_text">
-       ${textContent}
-     </div>
+     <div class="message_text">${textContent}</div>
      <div class="message_attachments">${attachmentsHTML}</div>`;
   }
 
@@ -104,6 +98,16 @@ export class MessageListRender {
       messagesHTML += this.getMessageHTML(msg);
     }
     return messagesHTML;
+  }
+
+  getFavoriteBtnHTML(isFavorite) {
+    return `<button class="message_btn add-to-favorite_button${
+      isFavorite ? ' favorite' : ''
+    }">
+      <svg class="favorite_img" xmlns="http://www.w3.org/2000/svg" width="255" height="240" viewBox="0 0 51 48">
+        <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
+      </svg>
+    </button>`;
   }
 
   getMessageHTML(message) {
@@ -127,24 +131,16 @@ export class MessageListRender {
           </div>`;
     }
 
-    const editDateText = editDate ? ` (edit. ${formatDate(editDate)})` : '';
-    const dateFullText = `${formatDate(date)}${editDateText}`;
-    const addToFavoriteBtn = `<button class="message_btn add-to-favorite_button${
-      isFavorite ? ' favorite' : ''
-    }">
-      <svg class="favorite_img" xmlns="http://www.w3.org/2000/svg" width="255" height="240" viewBox="0 0 51 48">
-        <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
-      </svg>
-    </button>`;
+    const dateString = formatDate(date);
+    const editDateString = editDate ? ` (edit. ${formatDate(editDate)})` : '';
+    const fullDateString = `${dateString}${editDateString}`;
 
     return `
       <li class="message_item" data-id="${id}">
-        <div class="message_content">
-          ${contentHTML}
-        </div>
-        <div class="message_date">${dateFullText}</div>
+        <div class="message_content">${contentHTML}</div>
+        <div class="message_date">${fullDateString}</div>
         <div class="message_btns">
-          ${addToFavoriteBtn}
+          ${this.getFavoriteBtnHTML(isFavorite)}
           <button class="message_btn remove-message_btn"></button>
         </div>
       </li>`;

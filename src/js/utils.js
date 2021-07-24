@@ -1,6 +1,5 @@
 import hljs from 'highlight.js';
 import { emojis } from './constants';
-import 'highlight.js/styles/github.css';
 
 export function formatDate(dateString) {
   const twoDigits = (number) => (number > 9 ? number : `0${number}`);
@@ -19,7 +18,7 @@ export function handleEmojiInString(str) {
   const replaceEmojiWithImg = (codePoint) => {
     const emoji = emojis.find((elem) => elem.codePoint === codePoint);
     return emoji
-      ? `<img class="emoji" src="https://ahj-diploma-chaos-organizer.herokuapp.com/emoji/${emoji.src}">`
+      ? `<img class="emoji" src="http://localhost:7070/emoji/${emoji.src}">`
       : String.fromCodePoint(codePoint);
   };
 

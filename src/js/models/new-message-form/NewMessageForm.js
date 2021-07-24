@@ -1,14 +1,13 @@
 import { nanoid } from 'nanoid';
 
-import { apiService as api } from './Api';
+import { apiService as api } from '../Api';
 import { EmojiPanel } from './panels/EmojiPanel';
 import { StickerPanel } from './panels/StickerPanel';
 import { UploadPanel } from './panels/UploadPanel';
 
 export class NewMessageForm {
   constructor(organizer) {
-    this.organizer = organizer;
-    this.files = new Map();
+    this.messages = organizer.messages;
 
     this.form = document.getElementById('form');
     this.textarea = document.getElementById('textarea');
@@ -19,6 +18,7 @@ export class NewMessageForm {
     this.emojiPanel = new EmojiPanel(this);
     this.stickerPanel = new StickerPanel(this);
     this.uploadPanel = new UploadPanel(this);
+    this.files = new Map();
 
     this.registerEvents();
   }
@@ -37,13 +37,11 @@ export class NewMessageForm {
     switch (data.type) {
       case 'sticker':
         message = await api.sendSticker(formData);
-        this.organizer.renderMessage(message);
         break;
-      case 'text':
-      case 'files':
+      default:
         message = await api.sendMessage(formData);
-        this.organizer.renderMessage(message);
     }
+    this.messages.renderNewMessage(message);
   }
 
   clearForm() {
@@ -70,21 +68,21 @@ export class NewMessageForm {
     }
 
     const removeButtonHTML = `
-        <button
-          class="file_remove-btn"
-          data-id="${id}">
+      <button
+        class="file_remove-btn"
+        data-id="${id}">
           ×
-        </button>`;
-
+      </button>`;
     previewElem.insertAdjacentHTML('beforeend', removeButtonHTML);
     this.previewContainer.insertAdjacentElement('beforeend', previewElem);
   }
 
   onSubmit() {
-    if (this.textarea.value.trim() !== '') {
+    const trimmedValue = this.textarea.value.trim();
+    if (trimmedValue !== '') {
       this.sendMessage({
         type: 'text',
-        content: this.textarea.value,
+        content: trimmedValue,
       });
     } else if (this.files.size > 0) {
       this.sendMessage({
@@ -92,6 +90,7 @@ export class NewMessageForm {
       });
     }
     this.clearForm();
+    this.resizeTextarea();
   }
 
   insertEmoji(emoji) {
@@ -104,8 +103,8 @@ export class NewMessageForm {
       emoji,
       ...charArr.slice(isNotSelected ? selectionStart : selectionEnd),
     ];
-    this.textarea.value = newCharArr.join('');
 
+    this.textarea.value = newCharArr.join('');
     this.textarea.selectionStart = selectionStart + 2;
     this.textarea.selectionEnd = selectionStart + 2;
     this.textarea.focus();
@@ -133,6 +132,11 @@ export class NewMessageForm {
     }
   }
 
+  resizeTextarea() {
+    this.textarea.style.height = 'auto';
+    this.textarea.style.height = `${this.textarea.scrollHeight}px`;
+  }
+
   registerEvents() {
     this.form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -140,10 +144,7 @@ export class NewMessageForm {
 
     this.submitBtn.addEventListener('click', () => this.onSubmit());
 
-    this.textarea.addEventListener('input', ({ target }) => {
-      target.style.height = 'auto';
-      target.style.height = `${target.scrollHeight}px`;
-    });
+    this.textarea.addEventListener('input', () => this.resizeTextarea());
 
     this.textarea.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
@@ -154,8 +155,8 @@ export class NewMessageForm {
 
     document.addEventListener('dragover', (e) => {
       e.preventDefault();
-      clearTimeout(this.dndTimeout);
       this.dndInput.classList.remove('hidden');
+      clearTimeout(this.dndTimeout);
       this.dndTimeout = setTimeout(
         () => this.dndInput.classList.add('hidden'),
         100,

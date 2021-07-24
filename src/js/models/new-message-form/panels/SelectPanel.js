@@ -8,7 +8,6 @@ export class SelectPanel {
     [this.button] = document.getElementsByClassName(`${type}_btn`);
     [this.panel] = document.getElementsByClassName(`${type}_list_container`);
     [this.list] = document.getElementsByClassName(`${type}_list`);
-
     this.registerEvents();
   }
 
@@ -17,7 +16,6 @@ export class SelectPanel {
     if (activePanel && activePanel !== this.panel) {
       activePanel.classList.add('hidden');
     }
-
     this.panel.classList.remove('hidden');
     clearTimeout(this.closeTimeout);
   }
@@ -39,11 +37,8 @@ export class SelectPanel {
 
   registerEvents() {
     this.button.addEventListener('mouseenter', () => this.open());
-
     this.panel.addEventListener('mouseenter', () => this.open());
-
     this.button.addEventListener('mouseleave', () => this.startClosingPanel());
-
     this.panel.addEventListener('mouseleave', () => this.startClosingPanel());
   }
 }

@@ -1,4 +1,4 @@
-import { apiService as api } from '../Api';
+import { apiService as api } from '../../Api';
 import { SelectPanel } from './SelectPanel';
 
 export class StickerPanel extends SelectPanel {
@@ -31,7 +31,7 @@ export class StickerPanel extends SelectPanel {
           ${this.activePack.pack === pack.pack ? ' active' : ''}"
         data-pack="${pack.pack}">
         <img class="stickerpack_preview"
-          src="https://ahj-diploma-chaos-organizer.herokuapp.com/${pack.preview}">
+          src="http://localhost:7070/${pack.preview}">
       </button>`;
     }
     this.stickerPackTabs.innerHTML = stickerPackTabHTML;
@@ -44,12 +44,11 @@ export class StickerPanel extends SelectPanel {
       const elemHtml = `
         <img
           class="sticker_item"
-          src="https://ahj-diploma-chaos-organizer.herokuapp.com/${sticker.src}"
+          src="http://localhost:7070/${sticker.src}"
           data-id="${sticker.id}"
           data-src=${sticker.src}>`;
       stickerPack.innerHTML += elemHtml;
     }
-
     this.list.innerHTML = '';
     this.list.appendChild(stickerPack);
   }
